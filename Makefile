@@ -13,7 +13,7 @@ BUILD_ARGS ?=
 .PHONY: all
 all: $(addprefix build-,$(ARCH))
 
-HELM_DIR    ?= deploy/charts/external-secrets
+HELM_DIR    ?= deploy/charts/welcome
 
 OUTPUT_DIR  ?= bin
 
@@ -66,7 +66,7 @@ build: $(addprefix build-,$(ARCH)) ## Build binary
 build-%: ## Build binary for the specified arch
 	@$(INFO) go build $*
 	@CGO_ENABLED=0 GOOS=linux GOARCH=$* \
-		go build -o '$(OUTPUT_DIR)/external-secrets-linux-$*' main.go
+		go build -o '$(OUTPUT_DIR)/welcome-linux-$*' main.go
 	@$(OK) go build $*
 
 lint.check: ## Check install of golanci-lint
@@ -121,3 +121,14 @@ docker.promote: ## Promote the docker image to the registry
 		$$(jq -j '"--amend $(IMAGE_REGISTRY)@" + .manifests[].digest + " "' < .tagmanifest)
 	docker manifest push $(IMAGE_REGISTRY):$(RELEASE_TAG)
 	@$(OK) docker push $(RELEASE_TAG) \
+
+# ====================================================================================
+# Helm Chart
+
+HELM_VERSION ?= $(shell helm show chart $(HELM_DIR) | grep 'version:' | sed 's/version: //g')
+
+helm.build: ## Build helm chart
+	@$(INFO) helm package
+	@helm package $(HELM_DIR) --dependency-update --destination $(OUTPUT_DIR)/chart
+	@mv $(OUTPUT_DIR)/chart/welcome-$(HELM_VERSION).tgz $(OUTPUT_DIR)/chart/welcome.tgz
+	@$(OK) helm package

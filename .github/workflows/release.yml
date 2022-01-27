@@ -67,11 +67,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.1
+
       - name: Promote Container Image
         if: env.DOCKERHUB_USERNAME != ''
         run: make docker.promote
         env:
-          RELEASE_TAG: ${{ github.event.inputs.version }}
+          RELEASE_TAG: ${{ steps.branch-name.outputs.tag }}
           SOURCE_TAG: main
 
   # lint-and-test:

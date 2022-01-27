@@ -53,6 +53,7 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
   promote:
+    needs: release
     name: Promote Container Image
     runs-on: ubuntu-latest
     steps:
@@ -79,6 +80,7 @@ jobs:
           SOURCE_TAG: main
 
   lint-and-test:
+    needs: release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -122,6 +124,7 @@ jobs:
         run: ct lint --config=.github/ci/ct.yaml
 
   release-helm:
+    needs: lint-and-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

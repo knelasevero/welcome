@@ -34,3 +34,4 @@ Session.vim
 **/charts/*.tgz
 
 .history
+bin

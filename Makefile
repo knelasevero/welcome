@@ -100,3 +100,24 @@ docker.build: $(addprefix build-,$(ARCH)) ## Build the docker image
 	@$(INFO) docker build
 	@docker build . $(BUILD_ARGS) -t $(IMAGE_REGISTRY):$(VERSION)
 	@$(OK) docker build
+
+docker.push: ## Push the docker image to the registry
+	@$(INFO) docker push
+	@docker push $(IMAGE_REGISTRY):$(VERSION)
+	@$(OK) docker push
+
+# RELEASE_TAG is tag to promote. Default is promoting to main branch, but can be overriden
+# to promote a tag to a specific version.
+RELEASE_TAG ?= main
+SOURCE_TAG ?= $(VERSION)
+
+docker.promote: ## Promote the docker image to the registry
+	@$(INFO) promoting $(SOURCE_TAG) to $(RELEASE_TAG)
+	docker manifest inspect $(IMAGE_REGISTRY):$(SOURCE_TAG) > .tagmanifest
+	for digest in $$(jq -r '.manifests[].digest' < .tagmanifest); do \
+		docker pull $(IMAGE_REGISTRY)@$$digest; \
+	done
+	docker manifest create $(IMAGE_REGISTRY):$(RELEASE_TAG) \
+		$$(jq -j '"--amend $(IMAGE_REGISTRY)@" + .manifests[].digest + " "' < .tagmanifest)
+	docker manifest push $(IMAGE_REGISTRY):$(RELEASE_TAG)
+	@$(OK) docker push $(RELEASE_TAG) \

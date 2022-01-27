@@ -1,0 +1,47 @@
+replicaCount: 1
+
+image:
+  repository: knelasevero/wecolme
+  pullPolicy: IfNotPresent
+  # -- The image tag to use. The default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+## -- Extra environment variables to add to container.
+extraEnv: []
+
+# -- Annotations to add to Deployment
+deploymentAnnotations: {}
+
+# -- Annotations to add to Pod
+podAnnotations: {}
+
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # requests:
+  #   cpu: 10m
+  #   memory: 32Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# -- Pod priority class name.
+priorityClassName: ""

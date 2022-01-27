@@ -68,7 +68,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Promote Container Image
-        if: env.GHCR_USERNAME != ''
+        if: env.DOCKERHUB_USERNAME != ''
         run: make docker.promote
         env:
           RELEASE_TAG: ${{ github.event.inputs.version }}

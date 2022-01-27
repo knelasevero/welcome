@@ -8,7 +8,12 @@ import (
 var Place string
 
 func Welcome(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(fmt.Sprintf("{\"message\": \"Welcome to %s\"}", Place)))
+	_, err := w.Write([]byte(fmt.Sprintf("{\"message\": \"Welcome to %s\"}", Place)))
+	if err != nil {
+		fmt.Println(err.Error())
+		w.WriteHeader(500)
+		return
+	}
 }
 
 func init(){

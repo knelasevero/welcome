@@ -97,7 +97,7 @@ jobs:
 
       - name: Generate chart
         run: |
-          make helm.generate
+          make helm.build
 
       - name: Set up Helm
         uses: azure/setup-helm@v1.1
@@ -150,7 +150,7 @@ jobs:
 
       - name: Generate chart
         run: |
-          make helm.generate
+          make helm.build
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.2.1

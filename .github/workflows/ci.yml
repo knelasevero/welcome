@@ -156,14 +156,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.1
 
       - name: Build & Publish Artifacts
         if: env.DOCKERHUB_USERNAME != ''
         env:
-          VERSION: ${{ steps.extract_branch.outputs.branch }}
+          VERSION: ${{ steps.branch-name.outputs.current_branch }}
           BUILD_ARGS: "--push --platform linux/amd64,linux/arm64"
         run: make docker.build

@@ -62,7 +62,7 @@ jobs:
           skip-build-cache: true
           skip-go-installation: true
 
-unit-tests:
+  unit-tests:
     runs-on: ubuntu-18.04
     needs: detect-noop
     if: needs.detect-noop.outputs.noop != 'true'

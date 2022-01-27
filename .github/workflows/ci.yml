@@ -62,4 +62,44 @@ jobs:
           skip-build-cache: true
           skip-go-installation: true
 
+unit-tests:
+    runs-on: ubuntu-18.04
+    needs: detect-noop
+    if: needs.detect-noop.outputs.noop != 'true'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Fetch History
+        run: git fetch --prune --unshallow
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Find the Go Cache
+        id: go
+        run: |
+          echo "::set-output name=build-cache::$(go env GOCACHE)"
+          echo "::set-output name=mod-cache::$(go env GOMODCACHE)"
+      - name: Cache the Go Build Cache
+        uses: actions/cache@v2.1.7
+        with:
+          path: ${{ steps.go.outputs.build-cache }}
+          key: ${{ runner.os }}-build-unit-tests-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-build-unit-tests-
+
+      - name: Cache Go Dependencies
+        uses: actions/cache@v2.1.7
+        with:
+          path: ${{ steps.go.outputs.mod-cache }}
+          key: ${{ runner.os }}-pkg-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-pkg-
+
+      - name: Run Unit Tests
+        run: |
+          make test
+
 

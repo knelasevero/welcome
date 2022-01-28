@@ -124,7 +124,7 @@ jobs:
         run: ct lint --config=.github/ci/ct.yaml
 
   release-helm:
-    needs: lint-and-test
+    needs: [lint-and-test, promote]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -169,3 +169,4 @@ jobs:
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           event-type: deploy
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "tag": "${{ steps.branch-name.outputs.tag }}"}'

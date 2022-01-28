@@ -16,5 +16,23 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'repository_dispatch'
     steps:
+
+      - name: Ref checkout
+        uses: actions/checkout@v2
+        with:
+          ref: '${{ github.event.client_payload.ref }}'
+
+      - name: Fetch History
+        run: git fetch --prune --unshallow
+
+      - uses: sigstore/cosign-installer@main
+
+      - name: Write signing pub to disk (only needed for `cosign sign --pub`)
+        run: echo "${{ secrets.VERIFY_KEY }}" > cosign.pub
+
+      - name: Verify signature
+        run: |
+          cosign verify --key cosign.pub knelasevero/wecolme:${{ github.event.client_payload.tag }}
+
       - name: Deploy
         run: ls

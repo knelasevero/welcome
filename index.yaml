@@ -2,6 +2,24 @@ apiVersion: v1
 entries:
   welcome:
   - apiVersion: v2
+    appVersion: v0.0.2-alpha-6
+    created: "2022-01-28T15:23:00.421057921Z"
+    description: Welcome app
+    digest: 8ed2446b2aba24a0068cf9495787cc77ed199850f7ed6bbc83186a13e3e1f3bb
+    home: https://knela.dev
+    keywords:
+    - example
+    - app
+    kubeVersion: '>= 1.11.0-0'
+    maintainers:
+    - email: lucassalves65@gmail.com
+      name: knelasevero
+    name: welcome
+    type: application
+    urls:
+    - https://github.com/knelasevero/welcome/releases/download/helm-chart-0.0.2-alpha-6/welcome-0.0.2-alpha-6.tgz
+    version: 0.0.2-alpha-6
+  - apiVersion: v2
     appVersion: v0.0.2-alpha-5
     created: "2022-01-28T15:05:12.457417392Z"
     description: Welcome app
@@ -91,4 +109,4 @@ entries:
     urls:
     - https://github.com/knelasevero/welcome/releases/download/helm-chart-0.0.2-alpha-1/welcome-0.0.2-alpha-1.tgz
     version: 0.0.2-alpha-1
-generated: "2022-01-28T15:05:12.457448192Z"
+generated: "2022-01-28T15:23:00.421094721Z"

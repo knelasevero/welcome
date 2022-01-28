@@ -166,3 +166,17 @@ jobs:
           VERSION: ${{ steps.branch-name.outputs.current_branch }}
           BUILD_ARGS: "--push --platform linux/amd64,linux/arm64"
         run: make docker.build
+      
+      - uses: sigstore/cosign-installer@main
+
+      - name: Write signing key to disk (only needed for `cosign sign --key`)
+        run: echo "${{ secrets.SIGNING_SECRET }}" > cosign.key
+
+      - name: Sign container image
+        run: |
+          cosign sign --key cosign.key \
+            -a "repo=${{ github.repository }}" \
+            -a "ref=${{ github.sha }}" \
+            knelasevero/wecolme:${{ steps.branch-name.outputs.current_branch }}
+        env:
+          COSIGN_PASSWORD: "{{ secrets.COSIGN_PASSWORD}}"

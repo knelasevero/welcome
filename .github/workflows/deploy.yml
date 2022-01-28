@@ -35,8 +35,9 @@ jobs:
         run: |
           cosign verify --key cosign.pub knelasevero/wecolme:${{ github.event.client_payload.tag }}
 
-      # make deploy needs env vars set (KUBECONFIGCONTENT and TAG)
       - name: Deploy
+        env:
+          KUBECONFIG: ~/.kube/config
         run: |
           make helm.build
           ./deploy/scripts/deploy.sh ${KUBECONFIGCONTENT} ${{ github.event.client_payload.tag }}

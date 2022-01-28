@@ -5,6 +5,8 @@ touch ~/.kube/config
 
 echo "${1}" > ~/.kube/config
 
+chmod 600 ~/.kube/config
+
 export TAG="${2}"
 
 if ! type "kubectl" > /dev/null; then
@@ -23,7 +25,7 @@ if ! type "helm" > /dev/null; then
     curl https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz -o helm-v3.8.0-linux-amd64.tar.gz
     tar -zxvf helm-v3.8.0-linux-amd64.tar.gz
     chmod +x linux-amd64/helm
-    cp linux-amd64/helm /usr/local/bin/
+    sudo cp linux-amd64/helm /usr/local/bin/
 else
     echo "already installed helm"
 fi

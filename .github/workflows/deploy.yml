@@ -39,7 +39,7 @@ jobs:
         run: |
           cosign verify --key cosign.pub knelasevero/wecolme:${{ github.event.client_payload.tag }}
       
-      # Can be ignored if not using gcloud, not setting GCLOUD (For local run for example)
+      # Can be ignored if not using gcloud, by just not setting GCLOUD (For local run for example)
       - name: Setup gcloud CLI
         if: env.GCLOUD == 'true'
         uses: google-github-actions/setup-gcloud@master
@@ -47,6 +47,7 @@ jobs:
           service_account_key: ${{ env.GCP_SM_SA_GKE_JSON }}
           project_id: ${{ env.GCP_PROJECT_ID }}
 
+      # Can be ignored if not using gcloud, by just not setting GCLOUD (For local run for example)
       - name: Get the GKE credentials
         if: env.GCLOUD == 'true'
         run: |-

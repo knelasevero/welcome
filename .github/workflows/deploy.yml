@@ -37,8 +37,6 @@ jobs:
 
       # make deploy needs env vars set (KUBECONFIGCONTENT and TAG)
       - name: Deploy
-        env:
-          TAG: "${{ github.event.client_payload.tag }}"
         run: |
           make helm.build
-          make deploy
+          ./deploy/scripts/deploy.sh ${KUBECONFIGCONTENT} ${{ github.event.client_payload.tag }}

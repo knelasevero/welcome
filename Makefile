@@ -134,14 +134,6 @@ helm.build: ## Build helm chart
 	@$(OK) helm package
 
 # ====================================================================================
-# Deploy
-
-deploy: ## Deploy tag to a k8s cluster with kubeconfig contents
-	@$(INFO) deploy tag to kubeconfig cluster
-	./deploy/scripts/deploy.sh $KUBECONFIGCONTENT $TAG
-	@$(OK) deploy tag to kubeconfig cluster
-
-# ====================================================================================
 # Help
 
 # only comments after make target name are shown as help text

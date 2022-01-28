@@ -8,6 +8,7 @@ env:
   GOLANGCI_VERSION: 'v1.42.1'
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME}}
   DOCKER_BUILDX_VERSION: 'v0.4.2'
+  COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD}}
 
 jobs:
   detect-noop:
@@ -178,5 +179,3 @@ jobs:
             -a "repo=${{ github.repository }}" \
             -a "ref=${{ github.sha }}" \
             knelasevero/wecolme:${{ steps.branch-name.outputs.current_branch }}
-        env:
-          COSIGN_PASSWORD: "{{ secrets.COSIGN_PASSWORD}}"

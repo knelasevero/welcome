@@ -2,9 +2,7 @@
 
 mkdir -p ~/.kube 
 touch ~/.kube/config
-
 echo "${1}" > ~/.kube/config
-
 chmod 600 ~/.kube/config
 
 export TAG="${2}"

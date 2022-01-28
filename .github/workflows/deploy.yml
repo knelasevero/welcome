@@ -8,6 +8,7 @@ env:
   GOLANGCI_VERSION: 'v1.33'
   DOCKER_BUILDX_VERSION: 'v0.4.2'
   KUBECONFIGCONTENT: ${{ secrets.KUBECONFIG }}
+  GCLOUD: "true"
 
 
 name: deploy
@@ -34,6 +35,14 @@ jobs:
       - name: Verify signature
         run: |
           cosign verify --key cosign.pub knelasevero/wecolme:${{ github.event.client_payload.tag }}
+      
+      # Can be ignored if not using gcloud, not setting GCLOUD (For local run for example)
+      - name: Setup gcloud CLI
+        if: env.GCLOUD == 'true'
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ env.GCP_SM_SA_GKE_JSON }}
+          project_id: ${{ env.GCP_PROJECT_ID }}
 
       # ./deploy/scripts/write_kubeconfig.sh gets $KUBECONFIGCONTENT and writes to ~/.kube/config
       - name: Deploy

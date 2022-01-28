@@ -138,5 +138,12 @@ helm.build: ## Build helm chart
 
 deploy: ## Deploy tag to a k8s cluster with kubeconfig contents
 	@$(INFO) deploy tag to kubeconfig cluster
-    ./deploy/scripts/deploy.sh $KUBECONFIGCONTENT $TAG
+	./deploy/scripts/deploy.sh $KUBECONFIGCONTENT $TAG
 	@$(OK) deploy tag to kubeconfig cluster
+
+# ====================================================================================
+# Help
+
+# only comments after make target name are shown as help text
+help: ## Displays this help message
+	@echo -e "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\x1b[36m\1\\x1b[m:\2/' | column -c2 -t -s : | sort)"

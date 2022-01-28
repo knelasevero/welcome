@@ -15,4 +15,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     if: github.event_name == 'repository_dispatch'
-    run: ls
+    steps:
+      - name: Deploy
+        run: ls

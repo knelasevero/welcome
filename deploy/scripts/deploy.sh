@@ -5,6 +5,8 @@ touch ~/.kube/config
 echo "${1}" > ~/.kube/config
 chmod 600 ~/.kube/config
 
+echo "KUBECONFIG var set to: ${KUBECONFIG}"
+
 export TAG="${2}"
 
 if ! type "kubectl" > /dev/null; then

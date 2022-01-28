@@ -36,8 +36,7 @@ jobs:
           cosign verify --key cosign.pub knelasevero/wecolme:${{ github.event.client_payload.tag }}
 
       - name: Deploy
-        env:
-          KUBECONFIG: /home/runner/.kube/config
         run: |
+          export KUBECONFIG=/home/runner/.kube/config
           make helm.build
           ./deploy/scripts/deploy.sh ${KUBECONFIGCONTENT} ${{ github.event.client_payload.tag }}

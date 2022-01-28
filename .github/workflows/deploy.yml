@@ -9,7 +9,10 @@ env:
   DOCKER_BUILDX_VERSION: 'v0.4.2'
   KUBECONFIGCONTENT: ${{ secrets.KUBECONFIG }}
   GCLOUD: "true"
-
+  GCP_SM_SA_GKE_JSON: ${{ secrets.GCP_SM_SA_GKE_JSON }}
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GCP_GKE_CLUSTER: ${{ secrets.GCP_GKE_CLUSTER }}
+  GCP_GKE_ZONE: ${{ secrets.GCP_GKE_ZONE }}
 
 name: deploy
 
@@ -43,6 +46,11 @@ jobs:
         with:
           service_account_key: ${{ env.GCP_SM_SA_GKE_JSON }}
           project_id: ${{ env.GCP_PROJECT_ID }}
+
+      - name: Get the GKE credentials
+        if: env.GCLOUD == 'true'
+        run: |-
+          gcloud container clusters get-credentials "$GCP_GKE_CLUSTER" --zone "$GCP_GKE_ZONE" --project "$GCP_PROJECT_ID"
 
       # ./deploy/scripts/write_kubeconfig.sh gets $KUBECONFIGCONTENT and writes to ~/.kube/config
       - name: Deploy

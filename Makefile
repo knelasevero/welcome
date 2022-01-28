@@ -132,3 +132,11 @@ helm.build: ## Build helm chart
 	@helm package $(HELM_DIR) --dependency-update --destination $(OUTPUT_DIR)/chart
 	@mv $(OUTPUT_DIR)/chart/welcome-$(HELM_VERSION).tgz $(OUTPUT_DIR)/chart/welcome.tgz
 	@$(OK) helm package
+
+# ====================================================================================
+# Deploy
+
+deploy: ## Deploy tag to a k8s cluster with kubeconfig contents
+	@$(INFO) deploy tag to kubeconfig cluster
+    ./deploy/scripts/deploy.sh $KUBECONFIGCONTENT $TAG
+	@$(OK) deploy tag to kubeconfig cluster

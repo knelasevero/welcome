@@ -39,4 +39,6 @@ jobs:
       - name: Deploy
         env:
           TAG: "${{ github.event.client_payload.tag }}"
-        run: make deploy
+        run: |
+          make helm.build
+          make deploy

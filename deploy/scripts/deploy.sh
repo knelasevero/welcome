@@ -28,6 +28,4 @@ else
     echo "already installed helm"
 fi
 
-make helm.build
-
 helm upgrade --install welcome ./deploy/charts/welcome/ --set image.repository=knelasevero/wecolme --set image.tag=${TAG}

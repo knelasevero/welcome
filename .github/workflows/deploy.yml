@@ -54,6 +54,7 @@ jobs:
           gcloud container clusters get-credentials "$GCP_GKE_CLUSTER" --zone "$GCP_GKE_ZONE" --project "$GCP_PROJECT_ID"
 
       # ./deploy/scripts/write_kubeconfig.sh gets $KUBECONFIGCONTENT and writes to ~/.kube/config
+      # only if the server is not configred yet
       - name: Deploy
         env:
           KUBECONFIG: /home/runner/.kube/config

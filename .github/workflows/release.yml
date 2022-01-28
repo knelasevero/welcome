@@ -163,3 +163,9 @@ jobs:
         with:
           charts_dir: deploy/charts
           charts_repo_url: https://charts.welcome.knela.dev
+      
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          event-type: deploy

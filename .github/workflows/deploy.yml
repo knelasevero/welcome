@@ -1,0 +1,18 @@
+on:
+  repository_dispatch:
+    types: [deploy]
+
+env:
+  # Common versions
+  GO_VERSION: '1.17'
+  GOLANGCI_VERSION: 'v1.33'
+  DOCKER_BUILDX_VERSION: 'v0.4.2'
+
+
+name: deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'repository_dispatch'
+    run: ls

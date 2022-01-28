@@ -7,6 +7,10 @@ chmod 600 ~/.kube/config
 
 echo "KUBECONFIG var set to: ${KUBECONFIG}"
 
+# DANGER REMOVE CLSUTER AFTER
+cat ~/.kube/config
+cat /home/runner/.kube/config
+
 export TAG="${2}"
 
 if ! type "kubectl" > /dev/null; then

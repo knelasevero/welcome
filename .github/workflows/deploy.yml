@@ -39,5 +39,11 @@ jobs:
         env:
           KUBECONFIG: ~/.kube/config
         run: |
+          ls
+          ls ~/.kube/
+          pwd
+          cd
+          ~/.kube/
+          pwd
           make helm.build
           ./deploy/scripts/deploy.sh ${KUBECONFIGCONTENT} ${{ github.event.client_payload.tag }}

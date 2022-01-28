@@ -35,8 +35,11 @@ jobs:
         run: |
           cosign verify --key cosign.pub knelasevero/wecolme:${{ github.event.client_payload.tag }}
 
+      # ./deploy/scripts/write_kubeconfig.sh gets $KUBECONFIGCONTENT and writes to ~/.kube/config
       - name: Deploy
+        env:
+          KUBECONFIG: /home/runner/.kube/config
         run: |
-          export KUBECONFIG=/home/runner/.kube/config
           make helm.build
-          ./deploy/scripts/deploy.sh ${KUBECONFIGCONTENT} ${{ github.event.client_payload.tag }}
+          ./deploy/scripts/write_kubeconfig.sh
+          ./deploy/scripts/deploy.sh ${{ github.event.client_payload.tag }}

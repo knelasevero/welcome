@@ -1,17 +1,6 @@
 #!/bin/bash
 
-mkdir -p ~/.kube 
-touch ~/.kube/config
-echo "${1}" > ~/.kube/config
-chmod 600 ~/.kube/config
-
-echo "KUBECONFIG var set to: ${KUBECONFIG}"
-
-# DANGER REMOVE CLSUTER AFTER
-cat ~/.kube/config
-cat /home/runner/.kube/config
-
-export TAG="${2}"
+export TAG="${1}"
 
 if ! type "kubectl" > /dev/null; then
     # Install Kubectl

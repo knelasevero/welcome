@@ -2,7 +2,7 @@
 
 export TAG="${1}"
 
-export ns="${$2}"
+export NS="${$2}"
 
 if ! type "kubectl" > /dev/null; then
     # Install Kubectl
@@ -25,19 +25,19 @@ else
     echo "already installed helm"
 fi
 
-if [[ -z "${ns}" ]]; then
-  ns="devops-challenge"
+if [[ -z "${NS}" ]]; then
+  NS="devops-challenge"
 fi
 
 # Creates namespace if it does not exist
-kubectl create namespace "${ns}" --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace "${NS}" --dry-run=client -o yaml | kubectl apply -f -
 
 # Bumb chart version
 sed -i "s|version: [^ ]*|version: \"${TAG}\"|g" deploy/charts/welcome/Chart.yaml
 sed -i "s|appVersion: [^ ]*|appVersion: \"v${TAG}\"|g" deploy/charts/welcome/Chart.yaml
 
 # Helm install for this tag/chart version
-helm upgrade --install welcome ./deploy/charts/welcome/ --set image.repository=knelasevero/wecolme --set image.tag=${TAG} -n "${ns}"
+helm upgrade --install welcome ./deploy/charts/welcome/ --set image.repository=knelasevero/wecolme --set image.tag=${TAG} -n "${NS}"
 
 # Undo bump locally (so there is no risk of pushing it)
 sed -i "s|version: [^ ]*|version: \"x.x.x\"|g" deploy/charts/welcome/Chart.yaml

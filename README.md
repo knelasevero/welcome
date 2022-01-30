@@ -121,6 +121,26 @@ cosign sign --key cosign.key \
 
 ```
 
+### How to deploy from your local machine to a specific Kubeconfig
+
+First set your $KUBECONFIGCONTENT env var:
+
+```
+export KUBECONFIGCONTENT=`cat /path/to/.kube/config`
+```
+
+Choose a tag to deploy and run `make deploy` with it set:
+
+```
+TAG=0.0.4-alpha-6 make deploy
+```
+
+If you want to deploy to a specific namespace you can also use the script directly:
+
+```
+./deploy/scripts/deploy.sh "${TAG}" "${NS}"
+```
+
 ## Missing pieces
 
 ## PR checks

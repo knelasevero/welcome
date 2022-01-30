@@ -135,7 +135,7 @@ export KUBECONFIGCONTENT=`cat /path/to/.kube/config`
 Choose a tag to deploy and run `make deploy` with it set:
 
 ```
-TAG=0.0.5-alpha-2 make deploy
+TAG=0.0.5-alpha-3 make deploy
 ```
 
 If you want to deploy to a specific namespace you can also use the script directly:

@@ -79,8 +79,22 @@ The second and third steps run in parallel. The `Promote Container Image` step w
 The last step is the `release-helm` step. Right now we are not pushing chart version bumps to the repo. `Chart.yaml` just holds a placeholder value for versions and we bump it while releasing using simple `sed` commands. After bumping the versions we use the github action provided by [chart-releaser-action](https://github.com/helm/chart-releaser-action) to create a github release named `helm-chart-{TAG}` that will also hold the bundled chart artifact in it. At the end of this step an github actions event is dispatched to trigger the Deploy workflow.
 
 ## Deployment steps
+
 ![image](https://user-images.githubusercontent.com/2432275/151699025-5c4904ba-fb68-48b4-9b42-2e014abce186.png)
 
+The deployment step is only triggered if an github actions event named deploy is sent from the release workflow.
+
+Since I wanted to check the steps in my GKE clusters, I have included steps to configure and get access to gcloud and an specific cluster config. Those steps can be ignored if you are able to run these steps against a simpler cluster, one that you can just point to using a kubeconfig.
+
+You can also change line 11 of that workflow to `GCLOUD: ""` or delete it to skip those steps.
+
+First thing that is done here is to check if the signature matches what we expect from previous steps. If the signing/verifying was not done with the correct key pair we would get errors here.
+
+The deploy step will then build the helm chart and call `make deploy` making the env var TAG be the current tag that triggered the whole process.
+
+`make deploy` calls 2 scripts. The first one is `./deploy/scripts/write_kubeconfig.sh` which will get the contents of the env var $KUBECONFIGCONTENTS and write to the default Kubeconfig path `~/.kube/config` (it will only do that if the current kube context does not have the same server url as the one that you are trying to setup).
+
+The second script is `./deploy/scripts/deploy.sh "${TAG}"`, which will try to install helm and kubectl (if you don't have them already in your PATH), and then just call helm install for the built chart using the image with the right tag.
 
 ## Running locally
 

@@ -52,6 +52,7 @@ make help
 
 ## CI steps
 
+![image](https://user-images.githubusercontent.com/2432275/151698000-4304327b-bf83-4333-af82-5a0ae4b08b2b.png)
 
 
 ## Release Steps

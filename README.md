@@ -119,6 +119,9 @@ cosign sign --key cosign.key \
             -a "ref=${SHA}" \
             knelasevero/wecolme:${TAG}
 
+# verify signature
+cosign verify --key cosign.pub knelasevero/wecolme:${TAG}
+
 ```
 
 ### How to deploy from your local machine to a specific Kubeconfig
@@ -141,12 +144,34 @@ If you want to deploy to a specific namespace you can also use the script direct
 ./deploy/scripts/deploy.sh "${TAG}" "${NS}"
 ```
 
+## Checking the running workload
+
+After installing the helm chart to your cluster you can check it by port forwarding or deploying an Ingress (if you have an Ingress Controller set up).
+
+```
+# open/split 2 terminals
+
+# in first terminal
+kubectl port-forward svc/welcome 8080:8080 -n ${NS}
+
+# in second terminal
+curl localhost:8080
+
+# or just open localhost:8080 in a browser
+```
+
 ## Missing pieces
+
+The helm package was supposed to be available at a subdomain of my domain: charts.welcome.knela.dev but something did not work as intended. Since I did not have time to look deeper we are just building the chart from the repo every time.
+
+As mentioned in the section that talks about tests, the unit test setup could be improved and a simple e2e test setup could have also been added.
+
+An optional ingress resource and other ServiceAccount or RBAC configs could have also be added to the helm templating letting the user choose what he wants passing flags while installing with helm.
 
 ## PR checks
 
+To keep it simple sonar cloud was added to the repo with the Open Source integration that is free. It checks for code duplication, code smells, vulnerabilities and known bugs. It also gives the code a score. Sonar Cloud checks every commit when they are sent to an open PR (with the out of the box integration). 
+
 ![image](https://user-images.githubusercontent.com/2432275/151699966-a53f1968-96b8-43cd-91cd-98056324c2e2.png)
-
-
 
 

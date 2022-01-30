@@ -79,6 +79,8 @@ The second and third steps run in parallel. The `Promote Container Image` step w
 The last step is the `release-helm` step. Right now we are not pushing chart version bumps to the repo. `Chart.yaml` just holds a placeholder value for versions and we bump it while releasing using simple `sed` commands. After bumping the versions we use the github action provided by [chart-releaser-action](https://github.com/helm/chart-releaser-action) to create a github release named `helm-chart-{TAG}` that will also hold the bundled chart artifact in it. At the end of this step an github actions event is dispatched to trigger the Deploy workflow.
 
 ## Deployment steps
+![image](https://user-images.githubusercontent.com/2432275/151699025-5c4904ba-fb68-48b4-9b42-2e014abce186.png)
+
 
 ## Running locally
 

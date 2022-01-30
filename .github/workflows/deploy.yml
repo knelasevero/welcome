@@ -46,8 +46,8 @@ jobs:
 
       - name: Bump Version
         run: |-
-          sed -i "s|version: [^ ]*|version: \"${{ steps.branch-name.outputs.tag }}\"|g" deploy/charts/welcome/Chart.yaml
-          sed -i "s|appVersion: [^ ]*|appVersion: \"v${{ steps.branch-name.outputs.tag }}\"|g" deploy/charts/welcome/Chart.yaml
+          sed -i "s|version: [^ ]*|version: \"${{ github.event.client_payload.tag }}\"|g" deploy/charts/welcome/Chart.yaml
+          sed -i "s|appVersion: [^ ]*|appVersion: \"v${{ github.event.client_payload.tag }}\"|g" deploy/charts/welcome/Chart.yaml
 
       - uses: sigstore/cosign-installer@main
 

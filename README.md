@@ -70,6 +70,9 @@ All those steps use caching mechanisms of github actions to avoid having long ru
 
 ## Release Steps
 
+![image](https://user-images.githubusercontent.com/2432275/151698388-29b9ce30-620a-41f6-a75c-ea67ecadd971.png)
+
+
 ## Deployment steps
 
 ## Running locally

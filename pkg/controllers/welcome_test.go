@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/knelasevero/welcome/pkg/config"
 )
 
 func TestUpperCaseHandler(t *testing.T) {
@@ -18,7 +20,7 @@ func TestUpperCaseHandler(t *testing.T) {
 	if err != nil {
 		t.Errorf("expected error to be nil got %v", err)
 	}
-	expected := fmt.Sprintf("{\"message\": \"Welcome to %s\"}", Place)
+	expected := fmt.Sprintf("{\"message\": \"Welcome to %s\"}", config.Place)
 	if string(data) != expected {
 		t.Errorf("expected %s got %s", expected, string(data))
 	}

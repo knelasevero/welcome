@@ -7,8 +7,6 @@ import (
 	"github.com/knelasevero/welcome/pkg/config"
 )
 
-var Place string
-
 func Welcome(w http.ResponseWriter, r *http.Request) {
 	_, err := w.Write([]byte(fmt.Sprintf("{\"message\": \"Welcome to %s\"}", config.Place)))
 	if err != nil {

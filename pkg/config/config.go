@@ -15,6 +15,6 @@ func init() {
 	}
 
 	if Place == "" {
-		Port = "Place"
+		Place = "Place"
 	}
 }

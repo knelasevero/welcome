@@ -52,8 +52,21 @@ make help
 
 ## CI steps
 
+Our gihub actions workflows consist of 3 parts: CI, Release and Deploy. Let's first talk about the CI steps.
+
 ![image](https://user-images.githubusercontent.com/2432275/151698000-4304327b-bf83-4333-af82-5a0ae4b08b2b.png)
 
+First step in the CI workflow is the detect-noop step. It basically detects if it makes sense to run the rest of the steps. If we are only changing documentation or some other details, we don't want to run tests or push images. This is important to be gentle on github action's provided free time, but also to save credits if you are on the paid plan.
+
+The other steps run in parallel since they don't have any dependencies.
+
+The `lint` step will check for general linting issues, like style guide patterns, errors not handled etc. It will also send annotations directly into the PR diff if the change is coming from a PR.
+
+The `unit-tests` step will just run the unit tests with `make test` target of the Makefile and fail the run if tests fail.
+
+The `publish-artifacts` step will login to dockerhub, build docker images, push them and sign them using cosign from sigstore.
+
+All those steps use caching mechanisms of github actions to avoid having long running jobs so we can get artifacts published quickly.
 
 ## Release Steps
 

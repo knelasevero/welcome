@@ -54,6 +54,9 @@ export IMAGE_REGISTRY ?= knelasevero/wecolme
 # ====================================================================================
 # Golang
 
+run: ## Run app locally (without a k8s cluster)
+	go run ./main.go
+
 .PHONY: test
 test: ## Run tests
 	@$(INFO) go test

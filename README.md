@@ -52,7 +52,7 @@ make help
 
 ## CI steps
 
-Our gihub actions workflows consist of 3 parts: CI, Release and Deploy. Let's first talk about the CI steps.
+Our github actions workflows consist of 3 parts: CI, Release and Deploy. Let's first talk about the CI steps.
 
 ![image](https://user-images.githubusercontent.com/2432275/151698000-4304327b-bf83-4333-af82-5a0ae4b08b2b.png)
 
@@ -72,6 +72,7 @@ All those steps use caching mechanisms of github actions to avoid having long ru
 
 ![image](https://user-images.githubusercontent.com/2432275/151698388-29b9ce30-620a-41f6-a75c-ea67ecadd971.png)
 
+The realse steps are a bit more sequential. The first step is the `Create Release` step. 
 
 ## Deployment steps
 

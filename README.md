@@ -74,7 +74,7 @@ All those steps use caching mechanisms of github actions to avoid having long ru
 
 The realse steps are a bit more sequential. It is only triggered if a git tag is pushed to the repo. The first step is the `Create Release` step. It basically consists of building the changelog of the release based on the git history and creating a github release with the tag name.
 
-The second and third steps run in parallel. The `Promote Container Image` step will basically the latest image pushed from main branch and tag it in dockerhub with the same tag as we had in the git release. While this happens we also try to check if our chart is linted correctly and check for templating issues on it.
+The second and third steps run in parallel. The `Promote Container Image` step will basically get the latest image pushed from main branch and tag it in dockerhub with the same tag as we had in the git release. While this happens we also try to check if our chart is linted correctly and check for templating issues on it.
 
 The last step is the `release-helm` step. Right now we are not pushing chart version bumps to the repo. `Chart.yaml` just holds a placeholder value for versions and we bump it while releasing using simple `sed` commands. After bumping the versions we use the github action provided by [chart-releaser-action](https://github.com/helm/chart-releaser-action) to create a github release named `helm-chart-{TAG}` that will also hold the bundled chart artifact in it. At the end of this step an github actions event is dispatched to trigger the Deploy workflow.
 

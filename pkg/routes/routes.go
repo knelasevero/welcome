@@ -4,7 +4,6 @@ import (
 	"github.com/knelasevero/welcome/pkg/controllers"
 
 	"github.com/gorilla/mux"
-
 )
 
 // Handlers register routes
@@ -15,4 +14,3 @@ func Handlers() *mux.Router {
 
 	return r
 }
-

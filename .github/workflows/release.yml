@@ -20,10 +20,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.1
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.event.inputs.version }}
+          tag_name: ${{ steps.branch-name.outputs.tag }}
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
@@ -32,22 +36,23 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v2
         with:
           configuration: "changelog.json"
-          toTag: ${{ github.event.inputs.version }}
+          toTag: ${{ steps.branch-name.outputs.tag }}
           commitMode: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: create changelog file
         env:
-          VERSION: ${{ github.event.inputs.version }}
+          VERSION: ${{ steps.branch-name.outputs.tag }}
           CHANGELOG: ${{ steps.build_changelog.outputs.changelog }}
         run: |
           echo "Image: \`ghcr.io/${GITHUB_REPOSITORY}:${VERSION}\`" >> .changelog
           echo "${CHANGELOG}" >> .changelog
+
       - name: Update Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.event.inputs.version }}
+          tag_name: ${{ steps.branch-name.outputs.tag }}
           body_path: .changelog
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/knelasevero/welcome/pkg/routes"
 	"github.com/knelasevero/welcome/pkg/config"
+	"github.com/knelasevero/welcome/pkg/routes"
 	"log"
 	"net/http"
 

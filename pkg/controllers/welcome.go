@@ -16,6 +16,6 @@ func Welcome(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func init(){
+func init() {
 	Place = "place"
 }

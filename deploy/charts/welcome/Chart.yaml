@@ -2,8 +2,8 @@ apiVersion: v2
 name: welcome
 description: Welcome app
 type: application
-version: "0.0.1"
-appVersion: "v0.0.1"
+version: "x.x.x"
+appVersion: "vx.x.x"
 kubeVersion: ">= 1.11.0-0"
 keywords:
   - example

@@ -22,6 +22,20 @@ jobs:
     if: github.event_name == 'repository_dispatch'
     steps:
 
+      # Can be ignored if not using gcloud, by just not setting GCLOUD (For local run for example)
+      - name: Setup gcloud CLI
+        if: env.GCLOUD == 'true'
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ env.GCP_SM_SA_GKE_JSON }}
+          project_id: ${{ env.GCP_PROJECT_ID }}
+
+      # Can be ignored if not using gcloud, by just not setting GCLOUD (For local run for example)
+      - name: Get the GKE credentials
+        if: env.GCLOUD == 'true'
+        run: |-
+          gcloud container clusters get-credentials "$GCP_GKE_CLUSTER" --zone "$GCP_GKE_ZONE" --project "$GCP_PROJECT_ID"
+
       - name: Ref checkout
         uses: actions/checkout@v2
         with:
@@ -39,26 +53,12 @@ jobs:
         run: |
           cosign verify --key cosign.pub knelasevero/wecolme:${{ github.event.client_payload.tag }}
       
-      # Can be ignored if not using gcloud, by just not setting GCLOUD (For local run for example)
-      - name: Setup gcloud CLI
-        if: env.GCLOUD == 'true'
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          service_account_key: ${{ env.GCP_SM_SA_GKE_JSON }}
-          project_id: ${{ env.GCP_PROJECT_ID }}
-
-      # Can be ignored if not using gcloud, by just not setting GCLOUD (For local run for example)
-      - name: Get the GKE credentials
-        if: env.GCLOUD == 'true'
-        run: |-
-          gcloud container clusters get-credentials "$GCP_GKE_CLUSTER" --zone "$GCP_GKE_ZONE" --project "$GCP_PROJECT_ID"
-
-      # ./deploy/scripts/write_kubeconfig.sh gets $KUBECONFIGCONTENT and writes to ~/.kube/config
-      # only if the server is not configred yet
+      # ./deploy/scripts/write_kubeconfig.sh part of the `make deploy` target gets $KUBECONFIGCONTENT 
+      # and writes to ~/.kube/config
+      # only if the server is not configured yet
       - name: Deploy
         env:
           KUBECONFIG: /home/runner/.kube/config
         run: |
           make helm.build
-          ./deploy/scripts/write_kubeconfig.sh
-          ./deploy/scripts/deploy.sh ${{ github.event.client_payload.tag }}
+          TAG=${{ github.event.client_payload.tag }} make deploy

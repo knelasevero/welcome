@@ -115,9 +115,9 @@ cosign generate-key-pair
 
 # sign the image
 cosign sign --key cosign.key \
-            -a "repo=${{ github.repository }}" \
-            -a "ref=${{ github.sha }}" \
-            knelasevero/wecolme:${{ steps.branch-name.outputs.current_branch }}
+            -a "repo=${REPO}" \
+            -a "ref=${SHA}" \
+            knelasevero/wecolme:${TAG}
 
 ```
 

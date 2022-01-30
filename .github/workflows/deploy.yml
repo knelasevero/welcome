@@ -44,6 +44,11 @@ jobs:
       - name: Fetch History
         run: git fetch --prune --unshallow
 
+      - name: Bump Version
+        run: |-
+          sed -i "s|version: [^ ]*|version: \"${{ steps.branch-name.outputs.tag }}\"|g" deploy/charts/welcome/Chart.yaml
+          sed -i "s|appVersion: [^ ]*|appVersion: \"v${{ steps.branch-name.outputs.tag }}\"|g" deploy/charts/welcome/Chart.yaml
+
       - uses: sigstore/cosign-installer@main
 
       - name: Write signing pub to disk (only needed for `cosign sign --pub`)

@@ -1,6 +1,6 @@
 # Welcome app
 
-Intro: This is a ...
+
 
 ## The App
 

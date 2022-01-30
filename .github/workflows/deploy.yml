@@ -60,5 +60,4 @@ jobs:
           KUBECONFIG: /home/runner/.kube/config
         run: |
           make helm.build
-          ./deploy/scripts/write_kubeconfig.sh
-          ./deploy/scripts/deploy.sh ${{ github.event.client_payload.tag }}
+          TAG=${{ github.event.client_payload.tag }} make deploy

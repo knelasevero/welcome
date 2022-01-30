@@ -7,6 +7,7 @@ MAKEFLAGS     += --warn-undefined-variables
 
 ARCH = amd64 arm64
 BUILD_ARGS ?=
+TAG ?=
 
 # default target is build
 .DEFAULT_GOAL := all
@@ -132,6 +133,17 @@ helm.build: ## Build helm chart
 	@helm package $(HELM_DIR) --dependency-update --destination $(OUTPUT_DIR)/chart
 	@mv $(OUTPUT_DIR)/chart/welcome-$(HELM_VERSION).tgz $(OUTPUT_DIR)/chart/welcome.tgz
 	@$(OK) helm package
+
+
+# ====================================================================================
+# Helm Chart
+
+.PHONY: deploy
+deploy: ## Build helm chart
+	@$(INFO) deploy app
+	./deploy/scripts/write_kubeconfig.sh
+	./deploy/scripts/deploy.sh "${TAG}"
+	@$(OK) deploy app
 
 # ====================================================================================
 # Help

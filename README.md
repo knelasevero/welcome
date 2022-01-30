@@ -103,12 +103,16 @@ Some of the CI steps or general Makefile targets that also make sense to run loc
 ```
 # linting
 make lint
+
 # formating
 make fmt
+
 # build and push
 BUILD_ARGS="--push --platform linux/amd64,linux/arm64" make docker.build
+
 # generate cosign keypair
 cosign generate-key-pair
+
 # sign the image
 cosign sign --key cosign.key \
             -a "repo=${{ github.repository }}" \

@@ -102,5 +102,8 @@ The second script is `./deploy/scripts/deploy.sh "${TAG}"`, which will try to in
 
 ## PR checks
 
+![image](https://user-images.githubusercontent.com/2432275/151699966-a53f1968-96b8-43cd-91cd-98056324c2e2.png)
+
+
 
 

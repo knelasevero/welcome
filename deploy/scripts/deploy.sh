@@ -26,7 +26,7 @@ else
 fi
 
 if [[ -z "${NS}" ]]; then
-  NS="devops-challenge"
+  NS="dev"
 fi
 
 # Creates namespace if it does not exist
